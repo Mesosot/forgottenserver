@@ -31,11 +31,6 @@
 
 extern Game g_game;
 
-namespace {
-
-std::string getGlobalString(lua_State* L, const char* identifier, const char* defaultValue)
-{
-	lua_getglobal(L, identifier);
 	if (!lua_isstring(L, -1)) {
 		lua_pop(L, 1);
 		return defaultValue;
@@ -187,15 +182,15 @@ bool ConfigManager::reload()
 	return result;
 }
 
-static std::string dummy;
+static std::string dummyStr;
 
 const std::string& ConfigManager::getString(string_config_t what) const
 {
-	if (what >= LAST_STRING_CONFIG) {
-		std::cout << "[Warning - ConfigManager::getString] Accessing invalid index: " << what << std::endl;
-		return dummy;
-	}
-	return string[what];
+    if (what >= LAST_STRING_CONFIG) {
+        std::cout << "[Warning - ConfigManager::getString] Accessing invalid index: " << what << std::endl;
+        return dummyStr;
+    }
+    return string[what];
 }
 
 int32_t ConfigManager::getNumber(integer_config_t what) const
